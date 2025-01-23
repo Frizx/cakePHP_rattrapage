@@ -97,4 +97,13 @@ class UsersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+    public function isAuthorized($user)
+{
+    // Seuls les admins (type = 0) peuvent accéder à ces fonctionnalités
+    if ($user['type'] === 0) {
+        return true;
+    }
+    return false;
+}
+
 }
