@@ -106,4 +106,21 @@ class UsersController extends AppController
     return false;
 }
 
+public function login()
+{
+    if ($this->request->is('post')) {
+        $user = $this->Users->find()
+            ->where(['email' => $this->request->getData('email')])
+            ->first();
+
+        if ($user && password_verify($this->request->getData('password'), $user->password)) {
+            $this->Authentication->setIdentity($user);
+            return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+        }
+
+        $this->Flash->error('Email ou mot de passe incorrect.');
+    }
+}
+
+
 }
