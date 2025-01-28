@@ -1,4 +1,6 @@
 <?php
+
+
 /*
  * Local configuration file to provide any overrides to your app.php configuration.
  * Copy and save this file as app_local.php and make changes as required.
@@ -15,7 +17,9 @@ return [
      * Development Mode:
      * true: Errors and warnings shown.
      */
-    'debug' => filter_var(env('DEBUG', true), FILTER_VALIDATE_BOOLEAN),
+    'Debug' => true,
+
+  
 
     /*
      * Security and encryption configuration
