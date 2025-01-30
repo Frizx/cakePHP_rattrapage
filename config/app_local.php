@@ -17,7 +17,15 @@ return [
      * Development Mode:
      * true: Errors and warnings shown.
      */
-    'Debug' => true,
+    'Error' => [
+    'errorLevel' => E_ALL,
+    'exceptionRenderer' => \Cake\Error\Renderer\WebExceptionRenderer::class,
+    'log' => true,
+    'trace' => true,
+],
+
+
+
 
   
 

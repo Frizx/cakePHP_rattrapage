@@ -18,6 +18,10 @@
         <div class="users view content">
             <h3><?= h($user->nom) ?></h3>
             <table>
+            <tr>
+                    <th><?= __("Nom d'utilisateur") ?></th>
+                    <td><?= h($user->username) ?></td>
+                </tr>
                 <tr>
                     <th><?= __('Nom') ?></th>
                     <td><?= h($user->nom) ?></td>

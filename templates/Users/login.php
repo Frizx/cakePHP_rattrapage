@@ -6,4 +6,4 @@
     <?= $this->Form->button('Se connecter') ?>
 <?= $this->Form->end() ?>
 
-<p>Pas encore inscrit ? <a href="#">Créer un compte</a></p>
+

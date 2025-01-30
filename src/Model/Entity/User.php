@@ -3,12 +3,15 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\ORM\Entity;
+
 
 /**
  * User Entity
  *
  * @property int $id
+ * @property int $username
  * @property string $nom
  * @property string $prenom
  * @property string $email
@@ -22,13 +25,10 @@ class User extends Entity
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
-     * Note that when '*' is set to true, this allows all unspecified fields to
-     * be mass assigned. For security purposes, it is advised to set '*' to false
-     * (or remove it), and explicitly make individual fields accessible as needed.
-     *
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'username' => true,
         'nom' => true,
         'prenom' => true,
         'email' => true,
@@ -46,4 +46,15 @@ class User extends Entity
     protected array $_hidden = [
         'password',
     ];
+
+    /**
+     * Mutateur pour le mot de passe : il est automatiquement haché avant d'être enregistré
+     */
+    protected function _setPassword($password)
+    {
+        if (strlen($password) > 0) { // Si un mot de passe a été fourni
+            return (new DefaultPasswordHasher())->hash($password); // Hachage du mot de passe
+        }
+        return $password; // Si aucun mot de passe, ne rien faire
+    }
 }

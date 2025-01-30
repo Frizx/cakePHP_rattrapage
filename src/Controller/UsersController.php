@@ -1,7 +1,17 @@
 <?php
+
+
+
 declare(strict_types=1);
 
+
 namespace App\Controller;
+
+
+use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Cake\Http\Exception\NotFoundException;
+
+
 
 class UsersController extends AppController
 {
@@ -42,7 +52,7 @@ public function login()
             $this->Authentication->logout();
             $this->Flash->success(__('Vous avez été déconnecté.'));
         }
-        return $this->redirect(['action' => 'login']);
+        return $this->redirect(['controller' => 'Pages', 'action' => 'display', 'home']);
     }
 
     public function profile()
@@ -50,42 +60,61 @@ public function login()
         $result = $this->Authentication->getResult();
         if (!$result->isValid()) {
             $this->Flash->error(__('Vous devez être connecté pour accéder à cette page.'));
-            return $this->redirect(['action' => 'login']);
+            return $this->redirect(['controller' => 'Pages', 'action' => 'display', 'home']);
         }
 
         $user = $this->Authentication->getIdentity();
         $this->set(compact('user'));
     }
 
+     /**
+     * Add method
+     *
+     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     */
     public function add()
     {
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('L\'utilisateur a été ajouté avec succès.'));
+                $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('Impossible d\'ajouter l\'utilisateur. Veuillez réessayer.'));
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
     }
 
+    
+  
+    
+     /**
+     * Edit method
+     *
+     * @param string|null $id User id.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
     public function edit($id = null)
     {
-        $user = $this->Users->get($id);
+        $user = $this->Users->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('Les informations de l\'utilisateur ont été mises à jour.'));
+                $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('Impossible de mettre à jour l\'utilisateur. Veuillez réessayer.'));
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
     }
+    
+
+    
+
 
     public function delete($id = null)
     {
