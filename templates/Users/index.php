@@ -3,10 +3,15 @@
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\User> $users
  */
+$userConnected = $this->request->getAttribute('identity');
+$isAdmin = $userConnected && $userConnected->type == 0;
 ?>
 <br><br>
 <div class="users index content">
-    <?= $this->Html->link(__('Créer un utilisateur'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+    <?php if ($isAdmin): ?>
+        <?= $this->Html->link(__('Créer un utilisateur'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+    <?php endif; ?>
+    
     <h3><?= __('Utilisateurs') ?></h3>
     <div class="table-responsive">
         <table>
@@ -20,7 +25,9 @@
                     <th><?= $this->Paginator->sort('type') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
+                    <?php if ($isAdmin): ?>
                     <th class="actions"><?= __('Actions') ?></th>
+                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
@@ -35,9 +42,10 @@
                     <td><?= h($user->created) ?></td>
                     <td><?= h($user->modified) ?></td>
                     <td class="actions">
-                        
-                        <?= $this->Html->link(__('Editer'), ['action' => 'edit', $user->id]) ?>
-                        <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
+                        <?php if ($isAdmin): ?>
+                            <?= $this->Html->link(__('Editer'), ['action' => 'edit', $user->id]) ?>
+                            <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
+                        <?php endif; ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
