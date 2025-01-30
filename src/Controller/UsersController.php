@@ -87,6 +87,12 @@ public function login()
         $this->set(compact('user'));
     }
 
+
+    public function controllers()
+{
+    $this->render('controllers'); // Rend la vue templates/Users/controllers.php
+}
+
     
   
     

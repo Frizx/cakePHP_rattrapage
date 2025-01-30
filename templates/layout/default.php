@@ -11,7 +11,11 @@ $menuItems = [
 
 if ($this->Identity->isLoggedIn()) {
     $menuItems[] = ['title' => 'Utilisateurs', 'link' => Router::url(['controller' => 'Users', 'action' => 'index']), 'order' => 2];
-    $menuItems[] = ['title' => 'Paramètres', 'link' => Router::url(['controller' => 'Settings', 'action' => 'index']), 'order' => 3];
+    $menuItems[] = [
+        'title' => 'Vues',
+        'link' => Router::url(['controller' => 'Users', 'action' => 'controllers']),
+        'order' => 3
+    ];
 }
 
 usort($menuItems, fn($a, $b) => $a['order'] <=> $b['order']);
@@ -138,7 +142,8 @@ usort($menuItems, fn($a, $b) => $a['order'] <=> $b['order']);
     <nav class="sidebar">
         <div class="sidebar-title">
             <a href="<?= $this->Url->build('/') ?>">
-                <img src="./webroot/img/logo.jpg" alt="Logo" style="width: 100%; max-width: 150px;">
+            <img src="<?= $this->Url->image('logo.jpg') ?>" alt="Logo" style="width: 100%; max-width: 150px;">
+
             </a>
         </div>
         <ul class="menu">

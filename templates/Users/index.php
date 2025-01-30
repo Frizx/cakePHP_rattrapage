@@ -7,7 +7,7 @@
 <br><br>
 <div class="users index content">
     <?= $this->Html->link(__('Créer un utilisateur'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Utilisateur') ?></h3>
+    <h3><?= __('Utilisateurs') ?></h3>
     <div class="table-responsive">
         <table>
             <thead>
